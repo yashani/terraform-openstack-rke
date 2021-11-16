@@ -26,6 +26,12 @@ variable "network_name" {
   description = "Name of the network"
 }
 
+variable "router" {
+  type        = string
+  default     = "fg-services-router"
+  description = "Name of the router"
+}
+
 
 
 ######################
