@@ -7,9 +7,9 @@ module "keypair" {
 
 module "network" {
   source          = "./modules/network"
-  network_name    = "${var.cluster_name}-nodes-net"
+  network_name    = var.network_name
   subnet_name     = "${var.cluster_name}-nodes-subnet"
-  router_name     = "${var.cluster_name}-router"
+  router_name     = var.router
   nodes_net_cidr  = var.nodes_net_cidr
   public_net_name = var.public_net_name
   dns_servers     = var.dns_servers
