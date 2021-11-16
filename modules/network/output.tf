@@ -6,5 +6,5 @@ output "nodes_subnet" {
   value = openstack_networking_subnet_v2.nodes_subnet
 }
 output "nodes_net_name" {
-  value = openstack_networking_network_v2.nodes_net.name
+  value = data.openstack_networking_network_v2.nodes_net.name
 }
