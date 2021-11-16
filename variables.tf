@@ -20,6 +20,14 @@ variable "ssh_key_file" {
   description = "Local path to SSH key"
 }
 
+variable "network_name" {
+  type        = string
+  default     = "fg-services-net"
+  description = "Name of the network"
+}
+
+
+
 ######################
 # Secgroup variables #
 ######################
