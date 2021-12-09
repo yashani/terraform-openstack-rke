@@ -48,9 +48,12 @@ variable "os_password"{}
  module "rke" {
   source  = "remche/rke/openstack"
   image_name          = "ubuntu-18.04-docker-x86_64"
-  public_net_name     = "public"
+  dns_servers         = ["193.48.86.103", "193.48.86.224"]
+  public_net_name     = "ext-net"
   master_flavor_name  = "m1.small"
   worker_flavor_name  = "m1.small"
+  storage_types       = ["ceph"]
+  default_storage     = "ceph"
   os_auth_url         = var.os_auth_url
   os_password         = var.os_password
 }
@@ -67,16 +70,46 @@ variable "os_password"{}
  module "rke" {
   source  = "remche/rke/openstack"
   image_name          = "ubuntu-18.04-docker-x86_64"
-  public_net_name     = "public"
+  dns_servers         = ["193.48.86.103", "193.48.86.224"]
+  public_net_name     = "ext-net"
   master_flavor_name  = "m1.small"
   worker_flavor_name  = "m1.small"
   edge_count          = 2
   worker_count        = 1
+  storage_types       = ["ceph"]
+  default_storage     = "ceph"
   master_labels       = {"node-role.kubernetes.io/master" = "true"}
   edge_labels         = {"node-role.kubernetes.io/edge" = "true"}
   os_auth_url         = var.os_auth_url
   os_password         = var.os_password
 }
+```
+
+###  Minimal example with two egde nodes and one worker nodes
+
+```hcl
+# Consider using 'export TF_VAR_os_auth_url=$OS_AUTH_URL'
+variable "os_auth_url"{}
+# Consider using 'export TF_VAR_os_password=$OS_PASSWORD'
+variable "os_password"{}
+module "rke" {
+  source              = "yashani/rke/openstack"
+  cluster_name        = "jupyter-gpu"
+  dns_servers         = ["193.48.86.103", "193.48.86.224"]
+  image_name          = "ubuntu-20.04-docker-g4-cudnn-x86_64"
+  public_net_name     = "ext-net"
+  secgroup_rules      = [default, web]
+  master_flavor_name  = "m1.large-2d"
+  worker_flavor_name  = "g4.xlarge-4xmem"
+  worker_count        = 1
+  storage_types       = ["ceph"]
+  default_storage     = "ceph"
+  os_auth_url         = var.os_auth_url
+  os_password         = var.os_password
+  addons_include      = ["addons/nvidia-device-plugin.yml"]
+
+}
+
 ```
 
 ## Documentation
